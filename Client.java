@@ -9,6 +9,7 @@ public class Client {
     int port;
     Socket currentSock;
     PrintWriter printWriter;
+    BufferedReader in;
 
     public Client(String theHost, int thePort) throws IOException {
         this.hostname = theHost;
@@ -59,22 +60,30 @@ public class Client {
         //getoutputstream, and then get printwriter
         //first message send key, 12345 to socket
         try{
+            System.out.println("gets to handshake");
             printWriter = new PrintWriter(currentSock.getOutputStream());
             printWriter.println("12345");
             printWriter.flush();
-
-            // BufferedReader in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
-
-            // String reply = in.readLine();//read a line from ther server
-            // if(reply.equals("couldn't handshake")) {
-            //     printWriter.close(); 
-            //     currentSock.close();
-            // }
-
         }catch(Exception e){
             System.err.print(e);
             System.exit(1);
         }
+        // try {
+        //     System.out.println("gets to buffer");
+        //     in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
+
+        //     System.out.println("gets to reply");
+        //     String reply = in.readLine();//read a line from ther server
+        //     System.out.println("gets after reply");
+        //     if(reply.equals("couldn't handshake")) {
+        //         printWriter.close(); 
+        //         currentSock.close();
+        //     }
+        // } catch (Exception e) {
+        //     // TODO: handle exception
+        //     System.err.print(e);
+        //     System.exit(1);
+        // }
     }
 
     public void disconnect() throws IOException{

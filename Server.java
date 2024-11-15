@@ -37,22 +37,25 @@ public class Server {
                 try{
                     //accept incoming connection
                     //should be checking here if the key isn't 12345
+                    System.out.println("gets to before accept");
                     Socket clientSocket = sock.accept();
-                    //PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    
+                    System.out.println("gets to after bufferedreader in server");
 
                     String reply = in.readLine();//read a line from ther server
                     if(reply.equals("12345")) {
+                        System.out.println("gets to reply is 12345");
                         System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
                         //start the thread
                         (new Handler(clientSocket)).start();
                     }
                     else {
                         //couldn't handshake
-                        // out.println("couldn't handshake");
-                        // out.flush();
-                        // out.close();
+                        System.out.println("gets to cant handshake");
+                        out.println("couldn't handshake");
+                        out.flush();
+                        out.close();
                         break;
                     }
                     
@@ -90,11 +93,12 @@ public class Server {
                         break;
                     }
                     else {
-
+                        //FACTORIZES 
                         int num;
                         int primeFactors = 0;
                         String line = "";
                         
+                        //NUMBER TOO LONG
                         if(request.length() > 10) {
                             out.println("There was an exception on the server");
                             out.flush();
