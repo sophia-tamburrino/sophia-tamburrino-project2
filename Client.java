@@ -36,11 +36,16 @@ public class Client {
         int num = Integer.parseInt(request);
         int primeFactors = 0;
         //won't ever hit 0, starts at the number and decreases until it hits 1.
-        for(int i = num; i > 0; i--) {
-            //if it is evenly divisible, then it is a factor
-            if(num % i == 0) {
-                primeFactors++;
+        try {
+            for(int i = num; i > 0; i--) {
+                //if it is evenly divisible, then it is a factor
+                if(num % i == 0) {
+                    primeFactors++;
+                }
             }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return "There was an exception on the server";
         }
     
         return "The number " + request + " has " + primeFactors + " factors";
