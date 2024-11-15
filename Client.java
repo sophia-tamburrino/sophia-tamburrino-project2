@@ -31,7 +31,7 @@ public class Client {
         //calls after handshake is done
         //sneding string to server and read it 
         //must factorize the number and return a string with how many factors the number has
-        //Ex. if "17", then must return the number of factors it has, which is 2.
+        //Ex. if 17, then must return the number of factors it has, which is 2.
         //loop through length of number
 
         String reply = "";
@@ -43,7 +43,7 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
 
             reply = in.readLine();//read a line from ther server
-            System.out.println("Server said: " + reply);
+            //System.out.println("Server said: " + reply);
 
             printWriter.close(); 
             currentSock.close();
@@ -60,7 +60,7 @@ public class Client {
         //getoutputstream, and then get printwriter
         //first message send key, 12345 to socket
         try{
-            System.out.println("gets to handshake");
+            //System.out.println("gets to handshake");
             printWriter = new PrintWriter(currentSock.getOutputStream());
             printWriter.println("12345");
             printWriter.flush();
@@ -68,22 +68,6 @@ public class Client {
             System.err.print(e);
             System.exit(1);
         }
-        // try {
-        //     System.out.println("gets to buffer");
-        //     in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
-
-        //     System.out.println("gets to reply");
-        //     String reply = in.readLine();//read a line from ther server
-        //     System.out.println("gets after reply");
-        //     if(reply.equals("couldn't handshake")) {
-        //         printWriter.close(); 
-        //         currentSock.close();
-        //     }
-        // } catch (Exception e) {
-        //     // TODO: handle exception
-        //     System.err.print(e);
-        //     System.exit(1);
-        // }
     }
 
     public void disconnect() throws IOException{

@@ -7,6 +7,7 @@ import java.time.*;
 public class Server {
     int port;
     ServerSocket sock;
+    ArrayList<LocalDateTime> timeList;
 
     public Server(int thePort) {
         this.port = thePort;
@@ -16,6 +17,7 @@ public class Server {
             // TODO: handle exception
             System.out.println(e);
         }
+        timeList = new ArrayList<>(); //initialize timelist here
     }
 
     public void disconnect() {
@@ -36,23 +38,26 @@ public class Server {
                 //from website
                 try{
                     //accept incoming connection
-                    //should be checking here if the key isn't 12345
-                    System.out.println("gets to before accept");
-                    Socket clientSocket = sock.accept();
+                    //should be checking here if the key isnt 12345
+                    //System.out.println("gets to before accept");
+                    Socket clientSocket = sock.accept(); //connects here
+                    LocalDateTime connectedTime = LocalDateTime.now();
+                    timeList.add(connectedTime);
+
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    System.out.println("gets to after bufferedreader in server");
+                    //System.out.println("gets to after bufferedreader in server");
 
                     String reply = in.readLine();//read a line from ther server
                     if(reply.equals("12345")) {
-                        System.out.println("gets to reply is 12345");
-                        System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
+                        //System.out.println("gets to reply is 12345");
+                        //System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
                         //start the thread
                         (new Handler(clientSocket)).start();
                     }
                     else {
-                        //couldn't handshake
-                        System.out.println("gets to cant handshake");
+                        //couldnt handshake
+                        //System.out.println("gets to cant handshake");
                         out.println("couldn't handshake");
                         out.flush();
                         out.close();
@@ -66,7 +71,7 @@ public class Server {
             }
     }
 
-    //currently writing the clienthandler--
+    //currently writing the clienthandler
     // this method will process the client request in a separate thread so that the server can continue to 
     // accept connections while these expensive factorization calculations are being performed on behalf of various clients
 
@@ -87,7 +92,7 @@ public class Server {
                 //I think we get the message from here and then send back the calculation 
                 while(true) {
                     String request = in.readLine();
-                    System.out.println(request); 
+                    //System.out.println(request); 
                     if(request == null) {
                         //no more request  
                         break;
@@ -136,10 +141,11 @@ public class Server {
     }
     
 
-    //implement later
-    public ArrayList getConnectedTimes() {
-
-        return null;
+    //The server should record the time each client was connected so that it can properly return these values with the getConnectedTimes method, 
+    //which should return a sorted ArrayList of LocalDateTime objects representing the connection time of every client
+    public ArrayList<LocalDateTime> getConnectedTimes() {
+        //will be already sorted as the timestamps are added in order
+        return timeList;
     }
     
 }
