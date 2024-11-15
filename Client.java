@@ -33,21 +33,23 @@ public class Client {
         //must factorize the number and return a string with how many factors the number has
         //Ex. if "17", then must return the number of factors it has, which is 2.
         //loop through length of number
-        int num = Integer.parseInt(request);
+        int num;
         int primeFactors = 0;
         //won't ever hit 0, starts at the number and decreases until it hits 1.
         try {
-            for(int i = num; i > 0; i--) {
-                //if it is evenly divisible, then it is a factor
-                if(num % i == 0) {
-                    primeFactors++;
-                }
-            }
+            num = Integer.parseInt(request);
         } catch (Exception e) {
             // TODO: handle exception
             return "There was an exception on the server";
         }
     
+        for(int i = num; i > 0; i--) {
+            //if it is evenly divisible, then it is a factor
+            if(num % i == 0) {
+                primeFactors++;
+            }
+        }
+
         return "The number " + request + " has " + primeFactors + " factors";
     }
 
