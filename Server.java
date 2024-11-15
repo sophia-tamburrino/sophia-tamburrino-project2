@@ -36,12 +36,19 @@ public class Server {
                 //from website
                 try{
                     //accept incoming connection
-                    
+                    //should be checking here if the key isn't 12345
                     Socket clientSocket = sock.accept();
+                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    String reply = in.readLine();//read a line from ther server
+                    //if(reply.equals("12345")) {
                     System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
-                    
                     //start the thread
                     (new Handler(clientSocket)).start();
+                    //}
+                    //else {
+                        //couldn't handshake
+                        //break;
+                    //}
                     
                     //continue looping
                 } catch(Exception e) {
@@ -51,6 +58,9 @@ public class Server {
     }
 
     //currently writing the clienthandler--
+    // this method will process the client request in a separate thread so that the server can continue to 
+    // accept connections while these expensive factorization calculations are being performed on behalf of various clients
+
     private class Handler extends Thread {
         Socket handlerSock;
         public Handler(Socket theSock) {
@@ -65,21 +75,45 @@ public class Server {
                 out = new PrintWriter(handlerSock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(handlerSock.getInputStream()));
                 
-                //don't know if this is what we want,
+                //I think we get the message from here and then send back the calculation 
                 while(true) {
-                    String message = in.readLine();
-                    if(message == null) {
-                        //no more input 
+                    String request = in.readLine();
+                    System.out.println(request); 
+                    if(request == null) {
+                        //no more request  
                         break;
                     }
-                    //print out the message, then flush it out and grab new message
-                    out.println(message);
-                    out.flush();
+                    // else if(request.equals("12345")) {
+                    //     out.println(request);
+                    //     out.flush();
+                    // }
+                    else {
+
+                        int num;
+                        int primeFactors = 0;
+                        String line = "";
+                        
+                        
+                        num = Integer.parseInt(request);
+
+                        //won't ever hit 0, starts at the number and decreases until it hits 1.
+                        for(int i = num; i > 0; i--) {
+                            //if it is evenly divisible, then it is a factor
+                            if(num % i == 0) {
+                                primeFactors++;
+                            }
+                        }
+                
+                        line = "The number " + request + " has " + primeFactors + " factors";
+                        out.println(line);
+                        out.flush();
+                    }
                 }
 
                 out.close();
                 in.close();
                 handlerSock.close();
+
             } catch (Exception e) {
                 // TODO: handle exception
                 System.out.println("The connection was lost");
