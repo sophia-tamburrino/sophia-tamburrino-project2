@@ -9,7 +9,6 @@ public class Client {
     int port;
     Socket currentSock;
     PrintWriter printWriter;
-    BufferedReader in;
 
     public Client(String theHost, int thePort) throws IOException {
         this.hostname = theHost;
@@ -37,14 +36,16 @@ public class Client {
         String reply = "";
         try{
 
+            //send a request using the already open printwriter
             printWriter.println(request);
             printWriter.flush();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
 
-            reply = in.readLine();//read a line from ther server
+            reply = in.readLine();
             //System.out.println("Server said: " + reply);
 
+            //last place we will close printwriter and currentSock
             printWriter.close(); 
             currentSock.close();
         } catch(Exception e){

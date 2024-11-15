@@ -29,7 +29,6 @@ public class Server {
         }
     }
 
-    //bulk of code seems to be here
     public void serve(int i) {
         //if message 12345, accept, then start thread
         //if not, disconnect
@@ -37,7 +36,7 @@ public class Server {
             for(int j = 0; j < i; j++) {
                 //from website
                 try{
-                    //accept incoming connection
+                    // accept the incoming connection
                     //should be checking here if the key isnt 12345
                     //System.out.println("gets to before accept");
                     Socket clientSocket = sock.accept(); //connects here
@@ -48,7 +47,9 @@ public class Server {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     //System.out.println("gets to after bufferedreader in server");
 
-                    String reply = in.readLine();//read a line from ther server
+                    String reply = in.readLine();
+
+                    //passcode was correct
                     if(reply.equals("12345")) {
                         //System.out.println("gets to reply is 12345");
                         //System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
@@ -71,10 +72,8 @@ public class Server {
             }
     }
 
-    //currently writing the clienthandler
     // this method will process the client request in a separate thread so that the server can continue to 
     // accept connections while these expensive factorization calculations are being performed on behalf of various clients
-
     private class Handler extends Thread {
         Socket handlerSock;
         public Handler(Socket theSock) {
@@ -98,12 +97,12 @@ public class Server {
                         break;
                     }
                     else {
-                        //FACTORIZES 
+                        //factorizes 
                         int num;
                         int primeFactors = 0;
                         String line = "";
                         
-                        //NUMBER TOO LONG
+                        //number is too long
                         if(request.length() > 10) {
                             out.println("There was an exception on the server");
                             out.flush();
