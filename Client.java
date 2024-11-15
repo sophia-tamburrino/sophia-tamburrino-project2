@@ -63,8 +63,14 @@ public class Client {
             printWriter.println("12345");
             printWriter.flush();
 
-            //printWriter.close(); 
-            //currentSock.close();
+            // BufferedReader in = new BufferedReader(new InputStreamReader(currentSock.getInputStream()));
+
+            // String reply = in.readLine();//read a line from ther server
+            // if(reply.equals("couldn't handshake")) {
+            //     printWriter.close(); 
+            //     currentSock.close();
+            // }
+
         }catch(Exception e){
             System.err.print(e);
             System.exit(1);

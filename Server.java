@@ -38,17 +38,23 @@ public class Server {
                     //accept incoming connection
                     //should be checking here if the key isn't 12345
                     Socket clientSocket = sock.accept();
+                    //PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    
+
                     String reply = in.readLine();//read a line from ther server
-                    //if(reply.equals("12345")) {
-                    System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
-                    //start the thread
-                    (new Handler(clientSocket)).start();
-                    //}
-                    //else {
+                    if(reply.equals("12345")) {
+                        System.out.println("New connection: "+ clientSocket.getRemoteSocketAddress());
+                        //start the thread
+                        (new Handler(clientSocket)).start();
+                    }
+                    else {
                         //couldn't handshake
-                        //break;
-                    //}
+                        // out.println("couldn't handshake");
+                        // out.flush();
+                        // out.close();
+                        break;
+                    }
                     
                     //continue looping
                 } catch(Exception e) {
@@ -83,17 +89,18 @@ public class Server {
                         //no more request  
                         break;
                     }
-                    // else if(request.equals("12345")) {
-                    //     out.println(request);
-                    //     out.flush();
-                    // }
                     else {
 
                         int num;
                         int primeFactors = 0;
                         String line = "";
                         
-                        
+                        if(request.length() > 10) {
+                            out.println("There was an exception on the server");
+                            out.flush();
+                            break;
+                        }
+
                         num = Integer.parseInt(request);
 
                         //won't ever hit 0, starts at the number and decreases until it hits 1.
