@@ -171,7 +171,7 @@ public class Project2_Tester {
         server.serve(1);
         Thread.sleep(1000); // give it a second to actually flush
 
-        line = client.request("92147483642");
+        line = client.request("92147483642"); //error here
         Thread.sleep(1000); // give it a second to actually flush
 
     } catch (Exception e){
@@ -268,7 +268,7 @@ public class Project2_Tester {
         Thread.sleep(1000); // give it a second to actually flush
 
         ArrayList<LocalDateTime> times = server.getConnectedTimes();
-        Duration duration = Duration.between(times.get(0), times.get(times.size()-1));
+        Duration duration = Duration.between(times.get(0), times.get(times.size()-1)); //error here
         long seconds = duration.toMillis();
         System.out.println("toMillis: " + seconds);
         assertEquals(500, seconds, 500);
